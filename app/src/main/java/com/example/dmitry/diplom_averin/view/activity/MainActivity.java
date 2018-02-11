@@ -1,8 +1,10 @@
 package com.example.dmitry.diplom_averin.view.activity;
 
 import android.Manifest;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(LOG_TAG, "onCreate");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -133,4 +136,6 @@ public class MainActivity extends AppCompatActivity
     public void messageToUser(String message) {
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
+
+
 }

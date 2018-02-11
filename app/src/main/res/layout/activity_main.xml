@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+
     xmlns:opencv="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.dmitry.diplom_averin.view.activity.MainActivity">
 
@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         android:id="@+id/activity_main_camera_view"
-        opencv:camera_id="any" />
+        opencv:camera_id="any"
+        android:onClick=""/>
 
 </FrameLayout>

@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+
         return inputFrame.rgba();
     }
 

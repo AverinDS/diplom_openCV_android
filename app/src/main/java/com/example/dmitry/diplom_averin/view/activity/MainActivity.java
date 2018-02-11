@@ -2,6 +2,7 @@ package com.example.dmitry.diplom_averin.view.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,9 +26,12 @@ import org.opencv.core.Mat;
 public class MainActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2, IView {
 
+
+    private final int CAMERA_PERMISSION_CODE = 1;
     private CameraBridgeViewBase cameraViewCV;
     private String LOG_TAG = "MainActivity";
     private Presenter presenter = new Presenter();
+
 
 
 
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         presenter.attachView(this);
-        presenter.getCameraPermission();
+        presenter.getCameraPermission(CAMERA_PERMISSION_CODE);
 
     }
 
@@ -75,7 +79,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.i(LOG_TAG, "onRequestPermissionsResult work");
-        presenter.hasGotCameraPermission(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_PERMISSION_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(LOG_TAG, "Permission of camera is grant");
+                    this.cameraPermission(true);
+                } else {
+                    Log.i(LOG_TAG, "Permission of camera is not grant");
+                    this.cameraPermission(false);
+                }
+                break;
+            }
+
+        }
     }
 
     @Override
@@ -99,7 +116,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void cameraPermittion(boolean success) {
+    public void cameraPermission(boolean success) {
+        Log.i(LOG_TAG, "success camera permission: "+String.valueOf(success));
         if(success) {
             cameraViewCV = (CameraBridgeViewBase)findViewById(R.id.activity_main_camera_view);
             cameraViewCV.setVisibility(View.VISIBLE);

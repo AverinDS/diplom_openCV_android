@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/dmitry/Diplom_AVERIN/openCVLibrary24134/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/home/dmitry/Diplom_AVERIN/openCVLibrary24134/src/debug/jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="C:\Users\DELL\Documents\diplom_openCV_android\openCVLibrary24134\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="C:\Users\DELL\Documents\diplom_openCV_android\openCVLibrary24134\src\debug\jniLibs"/></dataSet></merger>

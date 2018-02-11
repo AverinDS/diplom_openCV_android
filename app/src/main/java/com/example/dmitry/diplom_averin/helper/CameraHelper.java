@@ -21,11 +21,11 @@ public class CameraHelper {
         if (ContextCompat.checkSelfPermission((AppCompatActivity) view, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            //if need the exploration for user
+//            if need the exploration for user
 //            if (ActivityCompat.shouldShowRequestPermissionRationale((AppCompatActivity) view,
 //                    Manifest.permission.CAMERA)) {
-
-
+//
+//
 //            } else {
                 //No exploration need, we can request permission
 

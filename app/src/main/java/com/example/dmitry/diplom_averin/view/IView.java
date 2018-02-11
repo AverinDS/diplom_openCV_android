@@ -6,6 +6,6 @@ package com.example.dmitry.diplom_averin.view;
 
 public interface IView {
     void onReceived();//for getting data from server
-    void cameraPermittion(boolean success);
+    void cameraPermission(boolean success);
     void messageToUser(String message);
 }

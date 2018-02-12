@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -13,9 +14,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.dmitry.diplom_averin.R;
+import com.example.dmitry.diplom_averin.model.businessLogic.Recognition;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.view.IView;
 
@@ -23,6 +26,7 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +37,11 @@ public class MainActivity extends AppCompatActivity
     private CameraBridgeViewBase cameraViewCV;
     private String LOG_TAG = "MainActivity";
     private Presenter presenter = new Presenter();
+    private Mat bufer;
+    ImageView image;
+    public Bitmap bm;
+
+    Recognition rec = new Recognition();
 
 
 
@@ -40,11 +49,24 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(LOG_TAG, "onCreate");
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         setContentView(R.layout.activity_main);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+
+        Log.i(LOG_TAG, "onCreate");
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        image = findViewById(R.id.activity_main_image_view);
+
+        findViewById(R.id.activity_main_camera_view).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Mat mat = rec.recognise(bufer);
+                        bm = Bitmap.createBitmap(mat.cols(), mat.rows(),Bitmap.Config.ARGB_8888);
+                        Utils.matToBitmap(mat, bm);
+                        image.setImageBitmap(bm);
+                    }
+                });
 
         presenter.attachView(this);
         presenter.getCameraPermission(CAMERA_PERMISSION_CODE);
@@ -110,6 +132,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        bufer = inputFrame.rgba();
         return inputFrame.rgba();
     }
 
@@ -136,6 +159,7 @@ public class MainActivity extends AppCompatActivity
     public void messageToUser(String message) {
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
+
 
 
 }

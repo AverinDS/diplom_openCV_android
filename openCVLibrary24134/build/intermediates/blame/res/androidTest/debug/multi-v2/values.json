@@ -1,11 +1,15 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\DELL\\Documents\\diplom_openCV_android\\openCVLibrary24134\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "outputFile": "/home/dmitry/diplom_openCV_android/C:\\Users\\DELL\\Documents\\diplom_openCV_android\\openCVLibrary24134\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
             "map": []
         },
         {
-            "outputFile": "C:\\home\\dmitry\\Diplom_AVERIN\\openCVLibrary24134\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "outputFile": "/home/dmitry/diplom_openCV_android/C:\\home\\dmitry\\Diplom_AVERIN\\openCVLibrary24134\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "map": []
+        },
+        {
+            "outputFile": "/home/dmitry/diplom_openCV_android/openCVLibrary24134/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
             "map": []
         }
     ]

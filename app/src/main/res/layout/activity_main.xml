@@ -13,6 +13,6 @@
         android:visibility="gone"
         android:id="@+id/activity_main_camera_view"
         opencv:camera_id="any"
-        />
+        android:onClick=""/>
 
 </FrameLayout>

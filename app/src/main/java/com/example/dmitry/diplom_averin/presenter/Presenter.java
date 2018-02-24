@@ -1,36 +1,68 @@
 package com.example.dmitry.diplom_averin.presenter;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+
+import android.graphics.Bitmap;
+import android.util.Pair;
 
 import com.example.dmitry.diplom_averin.helper.CameraHelper;
-import com.example.dmitry.diplom_averin.view.IView;
+import com.example.dmitry.diplom_averin.model.businessLogic.Recognition;
+import com.example.dmitry.diplom_averin.model.entity.Graphic;
+import com.example.dmitry.diplom_averin.interfaces.IMyPresenter;
+import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
+
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
 
 /**
  * Created by dmitry on 05.02.18.
  */
 
-public class Presenter {
+public class Presenter implements IMyPresenter {
 
     private final String LOG_TAG = "Presenter";
     private CameraHelper cameraHelper = new CameraHelper();
-    private IView view;
+    private IMyActivity activity;
+    private Recognition recognition = new Recognition(this);
+    private boolean recogniseInWork = false;
 
-    public void attachView(IView attaching_view) {
-        this.view = attaching_view;
+    public void attachView(IMyActivity attaching_view) {
+        this.activity = attaching_view;
     }
 
     public void detachView() {
-        this.view = null;
+        this.activity = null;
     }
 
     public void getCameraPermission(int CAMERA_PERMISSION_CODE) {
-        view.cameraPermission(cameraHelper.getCameraPermission(this.view, CAMERA_PERMISSION_CODE));
+        activity.cameraPermission(cameraHelper.getCameraPermission(this.activity, CAMERA_PERMISSION_CODE));
     }
 
+    public void recogniseStart(Mat bufer) {
+        if (!recogniseInWork) {
+            recogniseInWork = true;
+            recognition.recognise(bufer);
+        } else {
+            activity.onFailureRecognise();
+        }
+    }
+
+    @Override
+    public void recogniseOnComplete(Mat mat) {
+        recogniseInWork = false;
+        Bitmap bm = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(mat, bm);
+
+        //generate debug data with coordinates of lines
+        StringBuilder stringBuilderPoints = new StringBuilder();
+        for (Pair<Double, Double> i : Graphic.getInstance().pointsTrain) {
+            stringBuilderPoints.append("\n (")
+                    .append(i.first.toString())
+                    .append(":")
+                    .append(i.second.toString())
+                    .append(")");
+        }
+         ;
+
+        activity.updateUI(bm, stringBuilderPoints.toString());
+    }
 }

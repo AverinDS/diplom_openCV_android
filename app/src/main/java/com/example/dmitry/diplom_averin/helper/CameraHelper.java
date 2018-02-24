@@ -2,20 +2,18 @@ package com.example.dmitry.diplom_averin.helper;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
-import com.example.dmitry.diplom_averin.view.IView;
+import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
 
 /**
  * Created by DELL on 11.02.2018.
  */
 
 public class CameraHelper {
-    public boolean getCameraPermission(IView view, int CAMERA_PERMISSION_CODE) {
+    public boolean getCameraPermission(IMyActivity view, int CAMERA_PERMISSION_CODE) {
 
         //check permissions
         if (ContextCompat.checkSelfPermission((AppCompatActivity) view, Manifest.permission.CAMERA)

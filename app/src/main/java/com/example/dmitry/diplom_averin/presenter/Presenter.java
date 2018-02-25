@@ -2,6 +2,7 @@ package com.example.dmitry.diplom_averin.presenter;
 
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.Pair;
 
 import com.example.dmitry.diplom_averin.helper.CameraHelper;
@@ -37,20 +38,23 @@ public class Presenter implements IMyPresenter {
         activity.cameraPermission(cameraHelper.getCameraPermission(this.activity, CAMERA_PERMISSION_CODE));
     }
 
-    public void recogniseStart(Mat bufer) {
+    public void recogniseStart(Mat sampleImage) {
         if (!recogniseInWork) {
             recogniseInWork = true;
-            recognition.recognise(bufer);
+            Graphic.getInstance().pointsTrain.clear();
+            Graphic.getInstance().pointsPredict.clear();
+            Log.d(LOG_TAG, "recognise start");
+            recognition.recognise(sampleImage);
         } else {
+            Log.d(LOG_TAG, "recognise abort");
             activity.onFailureRecognise();
         }
     }
 
     @Override
-    public void recogniseOnComplete(Mat mat) {
+    public void recogniseOnComplete(Bitmap bm) {
+        Log.d(LOG_TAG, "recognise complete");
         recogniseInWork = false;
-        Bitmap bm = Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(mat, bm);
 
         //generate debug data with coordinates of lines
         StringBuilder stringBuilderPoints = new StringBuilder();
@@ -61,7 +65,6 @@ public class Presenter implements IMyPresenter {
                     .append(i.second.toString())
                     .append(")");
         }
-         ;
 
         activity.updateUI(bm, stringBuilderPoints.toString());
     }

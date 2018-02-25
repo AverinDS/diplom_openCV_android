@@ -10,10 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dmitry.diplom_averin.R;
+import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
 
@@ -32,6 +34,7 @@ public class CameraMainActivity extends AppCompatActivity
     private Presenter presenter = new Presenter();
     private Mat bufer;
     private ImageView image;
+    private ProgressBar progressBar;
 
 
     @Override
@@ -43,12 +46,11 @@ public class CameraMainActivity extends AppCompatActivity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-
         Log.i(LOG_TAG, "onCreate");
-
 
         image = findViewById(R.id.activity_main_image_view);
         points = findViewById(R.id.activity_main_points);
+        progressBar = findViewById(R.id.actMainProgressBar);
 
         findViewById(R.id.activity_main_camera_view).setOnClickListener(this);
 
@@ -129,7 +131,7 @@ public class CameraMainActivity extends AppCompatActivity
     public void cameraPermission(boolean success) {
         Log.i(LOG_TAG, "success camera permission: " + String.valueOf(success));
         if (success) {
-            cameraViewCV = (CameraBridgeViewBase) findViewById(R.id.activity_main_camera_view);
+            cameraViewCV = findViewById(R.id.activity_main_camera_view);
             cameraViewCV.setVisibility(View.VISIBLE);
             cameraViewCV.setCvCameraViewListener(this);
         } else {
@@ -146,18 +148,26 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public void updateUI(Bitmap bm, String pointsInfo) {
+        Log.d(LOG_TAG, "upfateUI work");
+        progressBar.setVisibility(View.INVISIBLE);
         image.setImageBitmap(bm);
-        points.setText(pointsInfo);
+        String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
+        points.setText(s);
+
     }
 
     @Override
     public void onFailureRecognise() {
-        Toast.makeText(this,"Распознавание уже работает. Подождите немного",
+        Log.d(LOG_TAG, "OnFailRecognise");
+        Toast.makeText(this, "Распознавание уже работает. Подождите немного",
                 Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View view) {
+        Log.d(LOG_TAG,"Click to Screen");
+
+        progressBar.setVisibility(View.VISIBLE);
         presenter.recogniseStart(bufer);
     }
 

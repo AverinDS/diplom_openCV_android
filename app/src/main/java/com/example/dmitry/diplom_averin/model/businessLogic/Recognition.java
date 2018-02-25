@@ -1,11 +1,14 @@
 package com.example.dmitry.diplom_averin.model.businessLogic;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.interfaces.IMyPresenter;
 
+import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
@@ -27,22 +30,27 @@ public class Recognition {
         new FindLines().execute(sampledImage);
     }
 
-    private class FindLines extends AsyncTask<Mat, Void, Mat> {
+    private class FindLines extends AsyncTask<Mat, Void, Bitmap> {
+        private String LOG_TAG = "FindLines(asyncTask)";
 
         @Override
-        protected Mat doInBackground(Mat... sampledImage) {
+        protected Bitmap doInBackground(Mat... sampledImage) {
+            Log.d(LOG_TAG, "doInBackground start");
+
             Mat binaryImage=new	Mat();
             Imgproc.cvtColor(sampledImage[0], binaryImage, Imgproc.COLOR_RGB2GRAY);
             Imgproc.Canny(binaryImage, binaryImage, 80, 100);
             Mat	lines = new Mat();
 
-            //sensitive of recognition
+            //sensitive of recognition 50
             int	threshold = 50;
 
+            Log.d(LOG_TAG, "FindLines");
             Imgproc.HoughLinesP(binaryImage, lines,	1, Math.PI/180, threshold);
 
             Imgproc.cvtColor(binaryImage, binaryImage, Imgproc.COLOR_GRAY2RGB);
 
+            Log.d(LOG_TAG, "Save result of points:" + lines.cols());
             for (int i = 0; i < lines.cols(); i++)
             {
                 double[] line = lines.get(0, i);
@@ -60,12 +68,16 @@ public class Recognition {
                 org.opencv.core.Point lineEnd = new org.opencv.core.Point(xEnd,	yEnd);
                 Core.line(binaryImage, lineStart, lineEnd, new Scalar(0,0,255),	3);
             }
-            return binaryImage;
+
+            Bitmap bm = Bitmap.createBitmap(binaryImage.cols(), binaryImage.rows(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(binaryImage, bm);
+            return bm;
         }
 
         @Override
-        protected void onPostExecute(Mat mat) {
-            presenter.recogniseOnComplete(mat);
+        protected void onPostExecute(Bitmap bm) {
+            Log.d(LOG_TAG, "doInBackground complete");
+            presenter.recogniseOnComplete(bm);
         }
         //may be i should add OnCancelled?
     }

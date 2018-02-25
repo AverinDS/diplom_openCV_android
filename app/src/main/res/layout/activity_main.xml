@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:opencv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
 
-    xmlns:opencv="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
     tools:context="com.example.dmitry.diplom_averin.view.activity.CameraMainActivity">
 
+
     <org.opencv.android.JavaCameraView
+        android:id="@+id/activity_main_camera_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:id="@+id/activity_main_camera_view"
-        opencv:camera_id="any"
-        />
+        opencv:camera_id="any" />
+
     <ImageView
         android:id="@+id/activity_main_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#111"
-        android:alpha="0.6"/>
-    <TextView
-        android:id="@+id/activity_main_points"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="12sp"
-        android:textColor="#FF0000"/>
+        android:alpha="0.6"
+        android:background="#111" />
+
+    <ProgressBar
+        android:id="@+id/actMainProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        />
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/activity_main_points"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="#FF0000"
+            android:textSize="12sp" />
+    </ScrollView>
 
 </FrameLayout>

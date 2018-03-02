@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dmitry.diplom_averin.R;
+import com.example.dmitry.diplom_averin.helper.CameraPermission;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
@@ -95,10 +96,10 @@ public class CameraMainActivity extends AppCompatActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(LOG_TAG, "Permission of camera is grant");
-                    this.cameraPermission(true);
+                    this.cameraPermission(CameraPermission.PERMIT);
                 } else {
                     Log.i(LOG_TAG, "Permission of camera is not grant");
-                    this.cameraPermission(false);
+                    this.cameraPermission(CameraPermission.NOTPERMIT);
                 }
                 break;
             }
@@ -128,18 +129,28 @@ public class CameraMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void cameraPermission(boolean success) {
+    public void cameraPermission(CameraPermission success) {
         Log.i(LOG_TAG, "success camera permission: " + String.valueOf(success));
-        if (success) {
-            cameraViewCV = findViewById(R.id.activity_main_camera_view);
-            cameraViewCV.setVisibility(View.VISIBLE);
-            cameraViewCV.setCvCameraViewListener(this);
-        } else {
-            Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
-            //do i need smth anymore in this case?
+        switch (success) {
+            case PERMIT: {
+                cameraViewCV = findViewById(R.id.activity_main_camera_view);
+                cameraViewCV.setVisibility(View.VISIBLE);
+                cameraViewCV.setCvCameraViewListener(this);
+                break;
+            }
+            case NOTPERMIT: {
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG)
+                        .show();
+                break;
+            }
+            case QUERY: {
+                //nothing to do. Wait onRequestPermissionResult
+                break;
+            }
         }
 
     }
+
 
     @Override
     public void messageToUser(String message) {
@@ -165,7 +176,7 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-        Log.d(LOG_TAG,"Click to Screen");
+        Log.d(LOG_TAG, "Click to Screen");
 
         progressBar.setVisibility(View.VISIBLE);
         presenter.recogniseStart(bufer);

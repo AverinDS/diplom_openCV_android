@@ -10,9 +10,12 @@ import com.example.dmitry.diplom_averin.model.businessLogic.Recognition;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.interfaces.IMyPresenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
+import com.example.dmitry.diplom_averin.model.repository.GraphicRepository;
 
-import org.opencv.android.Utils;
 import org.opencv.core.Mat;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by dmitry on 05.02.18.
@@ -25,6 +28,7 @@ public class Presenter implements IMyPresenter {
     private IMyActivity activity;
     private Recognition recognition = new Recognition(this);
     private boolean recogniseInWork = false;
+    private GraphicRepository repository = new GraphicRepository();
 
     public void attachView(IMyActivity attaching_view) {
         this.activity = attaching_view;
@@ -67,5 +71,13 @@ public class Presenter implements IMyPresenter {
         }
 
         activity.updateUI(bm, stringBuilderPoints.toString());
+    }
+
+    public void getPredictPoints() {
+        repository.getPredictPoints()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(pointsObj -> activity.onReceived(pointsObj),
+                        throwable -> activity.onFailureGettingData());
     }
 }

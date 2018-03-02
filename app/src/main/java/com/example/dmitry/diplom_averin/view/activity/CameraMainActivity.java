@@ -19,6 +19,7 @@ import com.example.dmitry.diplom_averin.helper.CameraPermission;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
+import com.example.dmitry.diplom_averin.rest.GraphicRest;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
@@ -129,8 +130,25 @@ public class CameraMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onReceived() {
+    public void onReceived(GraphicRest points) {
 
+    }
+
+    @Override
+    public void onFailureGettingData() {
+        Toast.makeText(this,"Fail getting data from server", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCompleteSendData() {
+        Toast.makeText(this,"Data send successfully! Wait, while it is calculating",
+                Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFailureSendData() {
+        Toast.makeText(this,"Fail sending data to server. Check Internet connection"
+                , Toast.LENGTH_LONG).show();
     }
 
     @Override

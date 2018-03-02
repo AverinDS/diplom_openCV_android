@@ -36,6 +36,7 @@ public class CameraMainActivity extends AppCompatActivity
     private Mat bufer;
     private ImageView image;
     private ProgressBar progressBar;
+    private boolean click = false;
 
 
     @Override
@@ -119,7 +120,11 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        bufer = inputFrame.rgba();
+        if(click) {
+            bufer = inputFrame.rgba();
+            click = false;
+            startRecognition();
+        }
         return inputFrame.rgba();
     }
 
@@ -177,8 +182,11 @@ public class CameraMainActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         Log.d(LOG_TAG, "Click to Screen");
-
         progressBar.setVisibility(View.VISIBLE);
+        click = true;
+    }
+
+    private void startRecognition() {
         presenter.recogniseStart(bufer);
     }
 

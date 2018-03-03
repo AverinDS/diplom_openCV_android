@@ -188,6 +188,9 @@ public class CameraMainActivity extends AppCompatActivity
         String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
         points.setText(s);
 
+        //sendToServer
+        //presenter.getPredictPoints();
+
     }
 
     @Override

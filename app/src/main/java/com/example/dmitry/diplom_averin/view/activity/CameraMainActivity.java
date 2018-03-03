@@ -189,7 +189,7 @@ public class CameraMainActivity extends AppCompatActivity
         points.setText(s);
 
         //sendToServer
-        //presenter.getPredictPoints();
+        presenter.getPredictPoints();
 
     }
 

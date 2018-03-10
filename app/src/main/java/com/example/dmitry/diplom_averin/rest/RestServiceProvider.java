@@ -1,5 +1,7 @@
 package com.example.dmitry.diplom_averin.rest;
 
+import android.util.Log;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -11,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestServiceProvider {
+    private String LOG_TAG = "RestServiceProvider";
     private static final RestServiceProvider INSTANCE = new RestServiceProvider();
 
     private IRestService restService;
@@ -37,11 +40,13 @@ public class RestServiceProvider {
     }
 
     private OkHttpClient provideClient() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(message -> Log.i(LOG_TAG, message));
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build();
     }
+
 }

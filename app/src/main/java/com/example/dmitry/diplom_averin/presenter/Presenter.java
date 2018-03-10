@@ -78,6 +78,9 @@ public class Presenter implements IMyPresenter {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pointsObj -> activity.onReceived(pointsObj),
-                        throwable -> activity.onFailureGettingData());
+                        throwable -> {
+                    Log.e(LOG_TAG, throwable.getMessage());
+                    activity.onFailureGettingData();
+                        });
     }
 }

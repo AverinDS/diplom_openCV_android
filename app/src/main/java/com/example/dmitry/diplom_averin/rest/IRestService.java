@@ -11,9 +11,9 @@ import retrofit2.http.POST;
  */
 
 public interface IRestService {
-    String BASE_URL = "http://yandex.ru/";
+    String BASE_URL = "http://185.246.64.174/serverML/";
 
-    @POST ("test")
+    @POST ("perceptron")
     Observable<BaseResponse<GraphicRest>> getPredictPoints(@Body GraphicRest trainPoints);
 
 }

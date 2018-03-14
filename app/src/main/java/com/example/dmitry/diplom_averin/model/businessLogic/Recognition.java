@@ -60,8 +60,8 @@ public class Recognition {
                         yEnd = line[3];
 
                 //remember recognised points to Graphic class
-                Graphic.getInstance().pointsTrain.add(new Pair<>(xStart, yStart));
-                Graphic.getInstance().pointsTrain.add(new Pair<>(xEnd, yEnd));
+                Graphic.getInstance().pointsTrain.add(new Pair<>((int)xStart, (int)yStart));
+                Graphic.getInstance().pointsTrain.add(new Pair<>((int)xEnd, (int)yEnd));
 
 
                 org.opencv.core.Point lineStart = new org.opencv.core.Point(xStart, yStart);

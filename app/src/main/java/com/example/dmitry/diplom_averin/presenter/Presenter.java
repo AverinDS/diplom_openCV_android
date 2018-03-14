@@ -60,9 +60,10 @@ public class Presenter implements IMyPresenter {
         Log.d(LOG_TAG, "recognise complete");
         recogniseInWork = false;
 
+
         //generate debug data with coordinates of lines
         StringBuilder stringBuilderPoints = new StringBuilder();
-        for (Pair<Double, Double> i : Graphic.getInstance().pointsTrain) {
+        for (Pair<Integer, Integer> i : Graphic.getInstance().pointsTrain) {
             stringBuilderPoints.append("\n (")
                     .append(i.first.toString())
                     .append(":")

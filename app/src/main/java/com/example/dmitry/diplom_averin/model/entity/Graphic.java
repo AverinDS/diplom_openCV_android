@@ -19,6 +19,6 @@ public class Graphic {
         return INSTANCE;
     }
 
-    public List<Pair<Double, Double>> pointsTrain = new ArrayList<>();
-    public List<Pair<Double, Double>> pointsPredict = new ArrayList<>();
+    public List<Pair<Integer, Integer>> pointsTrain = new ArrayList<>();
+    public List<Pair<Integer, Integer>> pointsPredict = new ArrayList<>();
 }

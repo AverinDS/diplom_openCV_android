@@ -20,9 +20,9 @@ import io.reactivex.Observable;
 public class GraphicRepository {
     private IRestService restService = RestServiceProvider.newInstance().getRestService();
 
-    public Observable<GraphicRest> getPredictPoints() {
-        return restService.getPredictPoints(new GraphicRest(Graphic.getInstance().pointsTrain))
-                .map(BaseResponse::getData);
+    public Observable<List<Pair<Integer,Integer>>> getPredictPoints() {
+        return restService.getPredictPoints(new GraphicRest(Graphic.getInstance().pointsTrain));
+
     }
 
 }

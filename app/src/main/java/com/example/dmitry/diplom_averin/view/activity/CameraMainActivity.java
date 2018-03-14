@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -24,6 +25,8 @@ import com.example.dmitry.diplom_averin.rest.GraphicRest;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
+
+import java.util.List;
 
 public class CameraMainActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2, IMyActivity, View.OnClickListener {
@@ -130,7 +133,8 @@ public class CameraMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onReceived(GraphicRest points) {
+    public void onReceived(List<Pair<Integer,Integer>> point) {
+        Graphic.getInstance().pointsPredict.addAll(point);
 
     }
 
@@ -185,8 +189,12 @@ public class CameraMainActivity extends AppCompatActivity
         Log.d(LOG_TAG, "upfateUI work");
         progressBar.setVisibility(View.INVISIBLE);
         image.setImageBitmap(bm);
-        String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
-        points.setText(s);
+
+        if(getResources().getBoolean(R.bool.DEBUG)) {
+            String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
+            points.setText(s);
+        }
+
 
         //sendToServer
         presenter.getPredictPoints();

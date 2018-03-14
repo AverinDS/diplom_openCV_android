@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.dmitry.diplom_averin.R;
 import com.example.dmitry.diplom_averin.helper.CameraPermission;
+import com.example.dmitry.diplom_averin.helper.MethodML;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
@@ -135,6 +136,7 @@ public class CameraMainActivity extends AppCompatActivity
     @Override
     public void onReceived(List<Pair<Integer,Integer>> point) {
         Graphic.getInstance().pointsPredict.addAll(point);
+        Log.i(LOG_TAG, String.valueOf(Graphic.getInstance().pointsPredict.size()));
 
     }
 
@@ -197,7 +199,7 @@ public class CameraMainActivity extends AppCompatActivity
 
 
         //sendToServer
-        presenter.getPredictPoints();
+        presenter.getPredictPoints(MethodML.LinearRegression);
 
     }
 

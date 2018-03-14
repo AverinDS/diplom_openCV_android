@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.Pair;
 
 import com.example.dmitry.diplom_averin.helper.CameraHelper;
+import com.example.dmitry.diplom_averin.helper.MethodML;
 import com.example.dmitry.diplom_averin.model.businessLogic.Recognition;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.interfaces.IMyPresenter;
@@ -58,7 +59,7 @@ public class Presenter implements IMyPresenter {
     @Override
     public void recogniseOnComplete(Bitmap bm) {
         Log.d(LOG_TAG, "recognise complete");
-        recogniseInWork = false;
+
 
 
         //generate debug data with coordinates of lines
@@ -71,11 +72,12 @@ public class Presenter implements IMyPresenter {
                     .append(")");
         }
 
+        recogniseInWork = false;
         activity.updateUI(bm, stringBuilderPoints.toString());
     }
 
-    public void getPredictPoints() {
-        repository.getPredictPoints()
+    public void getPredictPoints(MethodML methodML) {
+        repository.getPredictPoints(methodML)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pointsObj -> activity.onReceived(pointsObj),

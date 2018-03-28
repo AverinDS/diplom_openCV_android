@@ -1,5 +1,6 @@
 package com.example.dmitry.diplom_averin.view.activity;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -139,7 +140,7 @@ public class CameraMainActivity extends AppCompatActivity
         Graphic.getInstance().pointsPredict.addAll(point);
         Log.i(LOG_TAG, String.valueOf(Graphic.getInstance().pointsPredict.size()));
         isCalculationWork = false;
-
+        startActivityPredict();
     }
 
     @Override
@@ -200,20 +201,16 @@ public class CameraMainActivity extends AppCompatActivity
             String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
             points.setText(s);
         }
-//        isScreenClicked = false;
-//        isCalculationWork = false;
-
 
         //sendToServer
-        presenter.getPredictPoints(MethodML.LinearRegression);
+        presenter.getPredictPoints(MethodML.MLPClassifier);
 
     }
 
     @Override
     public void onFailureRecognise() {
-        Log.d(LOG_TAG, "OnFailRecognise");
-        Toast.makeText(this, "Распознавание уже работает. Подождите немного",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getApplicationContext(), "Распознавание уже работает. Подождите немного",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -232,5 +229,9 @@ public class CameraMainActivity extends AppCompatActivity
         presenter.recogniseStart(bufer);
     }
 
+    public void startActivityPredict(){
+        Intent intent = new Intent(CameraMainActivity.this,PredictActivity.class);
+        startActivity(intent);
+    }
 }
 

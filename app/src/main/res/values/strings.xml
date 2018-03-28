@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Diplom_AVERIN</string>
+    <string name="message_to_back">Нажмите кнопку назад для возврата к камере</string>
 </resources>

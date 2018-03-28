@@ -61,6 +61,8 @@ public class Presenter implements IMyPresenter {
         Log.d(LOG_TAG, "recognise complete");
 
 
+        //save recognise graphic
+        Graphic.getInstance().recogniseGraphic = bm;
 
         //generate debug data with coordinates of lines
         StringBuilder stringBuilderPoints = new StringBuilder();

@@ -21,7 +21,6 @@ import com.example.dmitry.diplom_averin.helper.MethodML;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
-import com.example.dmitry.diplom_averin.rest.GraphicRest;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
@@ -41,7 +40,8 @@ public class CameraMainActivity extends AppCompatActivity
     private Mat bufer;
     private ImageView image;
     private ProgressBar progressBar;
-    private boolean click = false;
+    private boolean isScreenClicked = false;
+    private boolean isCalculationWork = false;
 
 
     @Override
@@ -125,10 +125,11 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        if(click) {
+        if(isScreenClicked) {
+            isScreenClicked = false;
             bufer = inputFrame.rgba();
-            click = false;
             startRecognition();
+
         }
         return inputFrame.rgba();
     }
@@ -137,12 +138,14 @@ public class CameraMainActivity extends AppCompatActivity
     public void onReceived(List<Pair<Integer,Integer>> point) {
         Graphic.getInstance().pointsPredict.addAll(point);
         Log.i(LOG_TAG, String.valueOf(Graphic.getInstance().pointsPredict.size()));
+        isCalculationWork = false;
 
     }
 
     @Override
     public void onFailureGettingData() {
         Toast.makeText(this,"Fail getting data from server", Toast.LENGTH_LONG).show();
+        isCalculationWork = false;
     }
 
     @Override
@@ -155,6 +158,7 @@ public class CameraMainActivity extends AppCompatActivity
     public void onFailureSendData() {
         Toast.makeText(this,"Fail sending data to server. Check Internet connection"
                 , Toast.LENGTH_LONG).show();
+        isCalculationWork = false;
     }
 
     @Override
@@ -196,6 +200,8 @@ public class CameraMainActivity extends AppCompatActivity
             String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
             points.setText(s);
         }
+//        isScreenClicked = false;
+//        isCalculationWork = false;
 
 
         //sendToServer
@@ -214,10 +220,15 @@ public class CameraMainActivity extends AppCompatActivity
     public void onClick(View view) {
         Log.d(LOG_TAG, "Click to Screen");
         progressBar.setVisibility(View.VISIBLE);
-        click = true;
+        isScreenClicked = true;
     }
 
     private void startRecognition() {
+        if (isCalculationWork) {
+            this.onFailureRecognise();
+            return;
+        }
+        isCalculationWork = true;
         presenter.recogniseStart(bufer);
     }
 

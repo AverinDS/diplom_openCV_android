@@ -1,54 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:opencv="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    tools:context="com.example.dmitry.diplom_averin.view.activity.CameraMainActivity">
+    android:orientation="vertical">
 
-
-    <org.opencv.android.JavaCameraView
-        android:id="@+id/activity_main_camera_view"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:opencv="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        opencv:camera_id="any" />
+        tools:context="com.example.dmitry.diplom_averin.view.activity.CameraMainActivity">
 
-    <ImageView
-        android:id="@+id/activity_main_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#111" />
-
-    <View
-        android:id="@+id/activity_main_drawerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        />
-
-
-    <ProgressBar
-        android:id="@+id/actMainProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="invisible"
-        />
-
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/activity_main_points"
+        <org.opencv.android.JavaCameraView
+            android:id="@+id/activity_main_camera_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textColor="#FF0000"
-            android:textSize="12sp" />
-    </ScrollView>
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            opencv:camera_id="any" />
+
+        <ImageView
+            android:id="@+id/activity_main_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:alpha="0.6"
+            android:background="#111" />
+
+        <ProgressBar
+            android:id="@+id/actMainProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
+
+        <!--ScrollView need for debug, when app write points, which It has been recognise-->
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/activity_main_points"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="#FF0000"
+                android:textSize="12sp" />
+        </ScrollView>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_main_menu_ml"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_menu_methods"
+        android:layout_gravity="top"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/activity_main_toggbtn_lr"
+            android:layout_width="@dimen/width_button_ml"
+            android:checked="true"
+            android:textOn="@string/linear_regression"
+            android:textOff="@string/linear_regression"
+            android:layout_height="match_parent" />
+
+        <ToggleButton
+            android:id="@+id/activity_main_toggbtn_perceptron"
+            android:layout_width="@dimen/width_button_ml"
+            android:textOn="@string/perceptron"
+            android:textOff="@string/perceptron"
+            android:layout_height="match_parent" />
+
+        <ToggleButton
+            android:id="@+id/activity_main_toggbtn_mlprgsr"
+            android:layout_width="@dimen/width_button_ml"
+            android:textOn="@string/mlp_regressor"
+            android:textOff="@string/mlp_regressor"
+            android:layout_height="match_parent" />
+
+        <ToggleButton
+            android:id="@+id/activity_main_toggbtn_mlpclsfr"
+            android:layout_width="@dimen/width_button_ml"
+            android:textOn="@string/mlp_classifier"
+            android:textOff="@string/mlp_classifier"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
 </FrameLayout>
+

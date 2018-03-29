@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Diplom_AVERIN</string>
     <string name="message_to_back">Нажмите кнопку назад для возврата к камере</string>
+    <string name="linear_regression">Линейная регрессия</string>
+    <string name="perceptron">Перцептрон</string>
+    <string name="mlp_classifier">Многослойный перцептрон</string>
+    <string name="mlp_regressor">MLP_Regressor</string>
 </resources>

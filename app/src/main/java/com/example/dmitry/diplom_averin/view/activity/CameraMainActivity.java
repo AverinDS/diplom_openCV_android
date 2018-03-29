@@ -11,10 +11,12 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.dmitry.diplom_averin.R;
 import com.example.dmitry.diplom_averin.helper.CameraPermission;
@@ -30,7 +32,8 @@ import org.opencv.core.Mat;
 import java.util.List;
 
 public class CameraMainActivity extends AppCompatActivity
-        implements CameraBridgeViewBase.CvCameraViewListener2, IMyActivity, View.OnClickListener {
+        implements CameraBridgeViewBase.CvCameraViewListener2, IMyActivity, View.OnClickListener,
+        CompoundButton.OnCheckedChangeListener {
 
 
     private final int CAMERA_PERMISSION_CODE = 1;
@@ -41,8 +44,13 @@ public class CameraMainActivity extends AppCompatActivity
     private Mat bufer;
     private ImageView image;
     private ProgressBar progressBar;
+    private ToggleButton tButtonLr;
+    private ToggleButton tButtonPerceptron;
+    private ToggleButton tButtonMlpRgrsr;
+    private ToggleButton tButtonMlpClsfr;
     private boolean isScreenClicked = false;
     private boolean isCalculationWork = false;
+    private MethodML method = MethodML.LinearRegression;
 
 
     @Override
@@ -60,7 +68,17 @@ public class CameraMainActivity extends AppCompatActivity
         points = findViewById(R.id.activity_main_points);
         progressBar = findViewById(R.id.actMainProgressBar);
 
+        tButtonLr = findViewById(R.id.activity_main_toggbtn_lr);
+        tButtonMlpClsfr = findViewById(R.id.activity_main_toggbtn_mlpclsfr);
+        tButtonMlpRgrsr = findViewById(R.id.activity_main_toggbtn_mlprgsr);
+        tButtonPerceptron = findViewById(R.id.activity_main_toggbtn_perceptron);
+
         findViewById(R.id.activity_main_camera_view).setOnClickListener(this);
+
+        tButtonPerceptron.setOnCheckedChangeListener(this);
+        tButtonLr.setOnCheckedChangeListener(this);
+        tButtonMlpClsfr.setOnCheckedChangeListener(this);
+        tButtonMlpRgrsr.setOnCheckedChangeListener(this);
 
         presenter.attachView(this);
         presenter.getCameraPermission(CAMERA_PERMISSION_CODE);
@@ -126,7 +144,7 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        if(isScreenClicked) {
+        if (isScreenClicked) {
             isScreenClicked = false;
             bufer = inputFrame.rgba();
             startRecognition();
@@ -136,7 +154,7 @@ public class CameraMainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onReceived(List<Pair<Integer,Integer>> point) {
+    public void onReceived(List<Pair<Integer, Integer>> point) {
         Graphic.getInstance().pointsPredict.addAll(point);
         Log.i(LOG_TAG, String.valueOf(Graphic.getInstance().pointsPredict.size()));
         isCalculationWork = false;
@@ -145,19 +163,19 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public void onFailureGettingData() {
-        Toast.makeText(this,"Fail getting data from server", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Fail getting data from server", Toast.LENGTH_LONG).show();
         isCalculationWork = false;
     }
 
     @Override
     public void onCompleteSendData() {
-        Toast.makeText(this,"Data send successfully! Wait, while it is calculating",
+        Toast.makeText(this, "Data send successfully! Wait, while it is calculating",
                 Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onFailureSendData() {
-        Toast.makeText(this,"Fail sending data to server. Check Internet connection"
+        Toast.makeText(this, "Fail sending data to server. Check Internet connection"
                 , Toast.LENGTH_LONG).show();
         isCalculationWork = false;
     }
@@ -197,19 +215,19 @@ public class CameraMainActivity extends AppCompatActivity
         progressBar.setVisibility(View.INVISIBLE);
         image.setImageBitmap(bm);
 
-        if(getResources().getBoolean(R.bool.DEBUG)) {
+        if (getResources().getBoolean(R.bool.DEBUG)) {
             String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
             points.setText(s);
         }
 
         //sendToServer
-        presenter.getPredictPoints(MethodML.MLPClassifier);
+        presenter.getPredictPoints(method);
 
     }
 
     @Override
     public void onFailureRecognise() {
-        Toast.makeText(this.getApplicationContext(), "Распознавание уже работает. Подождите немного",
+        Toast.makeText(this, "Распознавание уже работает. Подождите немного",
                 Toast.LENGTH_LONG).show();
     }
 
@@ -229,9 +247,52 @@ public class CameraMainActivity extends AppCompatActivity
         presenter.recogniseStart(bufer);
     }
 
-    public void startActivityPredict(){
-        Intent intent = new Intent(CameraMainActivity.this,PredictActivity.class);
+    public void startActivityPredict() {
+        Intent intent = new Intent(CameraMainActivity.this, PredictActivity.class);
         startActivity(intent);
+    }
+
+
+    private void changeMethodML(boolean perceptron, boolean linRegression,
+                                boolean mlpClsfr, boolean mlpRgrsr) {
+        tButtonPerceptron.setChecked(perceptron);
+        tButtonMlpRgrsr.setChecked(mlpRgrsr);
+        tButtonMlpClsfr.setChecked(mlpClsfr);
+        tButtonLr.setChecked(linRegression);
+    }
+
+    private void checkEmptyMethod(){
+        if(!tButtonMlpRgrsr.isChecked() && !tButtonMlpClsfr.isChecked() && !tButtonLr.isChecked() &&
+                !tButtonPerceptron.isChecked()) {
+            method = MethodML.LinearRegression;
+            changeMethodML(false,true,false,false);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+        if(compoundButton.equals(tButtonLr)&& isChecked) {
+            method = MethodML.LinearRegression;
+            changeMethodML(false,true,false,false);
+            return;
+        }
+        if(compoundButton.equals(tButtonMlpClsfr)&& isChecked) {
+            method = MethodML.MLPClassifier;
+            changeMethodML(false,false,true,false);
+            return;
+        }
+        if(compoundButton.equals(tButtonMlpRgrsr)&& isChecked) {
+            method = MethodML.MLPRegressor;
+            changeMethodML(false,false,false,true);
+            return;
+        }
+        if(compoundButton.equals(tButtonPerceptron)&& isChecked) {
+            method = MethodML.Perceptron;
+            changeMethodML(true,false,false,false);
+            return;
+        }
+
+        checkEmptyMethod();
     }
 }
 

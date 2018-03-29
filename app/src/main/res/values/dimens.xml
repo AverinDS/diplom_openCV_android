@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="width_view_camera">500dp</dimen>
+    <dimen name="height_menu_methods">50dp</dimen>
+    <dimen name="width_button_ml">150dp</dimen>
 </resources>

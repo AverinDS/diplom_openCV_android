@@ -9,11 +9,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorBlack"
         tools:context="com.example.dmitry.diplom_averin.view.activity.CameraMainActivity">
 
         <org.opencv.android.JavaCameraView
             android:id="@+id/activity_main_camera_view"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/width_view_camera"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:visibility="gone"
@@ -21,7 +22,7 @@
 
         <ImageView
             android:id="@+id/activity_main_image_view"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/width_view_camera"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:alpha="0.6"

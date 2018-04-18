@@ -44,15 +44,18 @@
                 android:id="@+id/activity_main_points"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textColor="#FF0000"
+                android:textColor="@color/blood_red"
                 android:textSize="12sp" />
         </ScrollView>
 
         <ImageButton
+            android:id="@+id/activity_main_btn_take_photo"
+            android:foreground="@android:drawable/ic_menu_camera"
+            android:background="@color/blood_red"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="50dp"
             />
     </FrameLayout>
 

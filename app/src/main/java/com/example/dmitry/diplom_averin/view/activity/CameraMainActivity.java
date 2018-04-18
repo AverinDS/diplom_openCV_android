@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class CameraMainActivity extends AppCompatActivity
     private ToggleButton tButtonPerceptron;
     private ToggleButton tButtonMlpRgrsr;
     private ToggleButton tButtonMlpClsfr;
+    private ImageButton btnTakePhoto;
     private boolean isScreenClicked = false;
     private boolean isCalculationWork = false;
     private MethodML method = MethodML.LinearRegression;
@@ -74,18 +76,18 @@ public class CameraMainActivity extends AppCompatActivity
         image = findViewById(R.id.activity_main_image_view);
         points = findViewById(R.id.activity_main_points);
         progressBar = findViewById(R.id.actMainProgressBar);
+        btnTakePhoto = findViewById(R.id.activity_main_btn_take_photo);
 
         tButtonLr = findViewById(R.id.activity_main_toggbtn_lr);
         tButtonMlpClsfr = findViewById(R.id.activity_main_toggbtn_mlpclsfr);
         tButtonMlpRgrsr = findViewById(R.id.activity_main_toggbtn_mlprgsr);
         tButtonPerceptron = findViewById(R.id.activity_main_toggbtn_perceptron);
 
-        findViewById(R.id.activity_main_camera_view).setOnClickListener(this);
-
         tButtonPerceptron.setOnCheckedChangeListener(this);
         tButtonLr.setOnCheckedChangeListener(this);
         tButtonMlpClsfr.setOnCheckedChangeListener(this);
         tButtonMlpRgrsr.setOnCheckedChangeListener(this);
+        btnTakePhoto.setOnClickListener(this);
 
         presenter.attachView(this);
         presenter.getCameraPermission(CAMERA_PERMISSION_CODE);

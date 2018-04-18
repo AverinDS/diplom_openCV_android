@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,15 +22,19 @@ import android.widget.ToggleButton;
 
 import com.example.dmitry.diplom_averin.R;
 import com.example.dmitry.diplom_averin.helper.CameraPermission;
+import com.example.dmitry.diplom_averin.helper.FileSaver;
 import com.example.dmitry.diplom_averin.helper.MethodML;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 import com.example.dmitry.diplom_averin.presenter.Presenter;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
+import java.io.IOException;
 import java.util.List;
 
 public class CameraMainActivity extends AppCompatActivity
@@ -42,6 +48,7 @@ public class CameraMainActivity extends AppCompatActivity
     private String LOG_TAG = "CameraMainActivity";
     private Presenter presenter = new Presenter();
     private Mat bufer;
+    private Bitmap bm = null;
     private ImageView image;
     private ProgressBar progressBar;
     private ToggleButton tButtonLr;
@@ -111,6 +118,20 @@ public class CameraMainActivity extends AppCompatActivity
         }
         presenter.detachView();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                bm = uriToBitmap(result.getUri());
+                Utils.bitmapToMat(bm, bufer);
+                presenter.recogniseStart(bufer);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Log.e(LOG_TAG, result.getError().getMessage());
+            }
+        }
     }
 
     @Override
@@ -244,7 +265,21 @@ public class CameraMainActivity extends AppCompatActivity
             return;
         }
         isCalculationWork = true;
-        presenter.recogniseStart(bufer);
+
+        bm = Bitmap.createBitmap(bufer.width(),bufer.height(), Bitmap.Config.ARGB_8888);
+
+        //First, we should crop image
+        Utils.matToBitmap(bufer, bm);
+        FileSaver fileSaver = new FileSaver();
+        Uri uri = fileSaver.saveImg(bm,this);
+
+        if (uri != null) {
+            CropImage.activity(uri)
+                    .start(this);
+        }
+
+        //in ActivityResult we continue recognition
+
     }
 
     public void startActivityPredict() {
@@ -293,6 +328,15 @@ public class CameraMainActivity extends AppCompatActivity
         }
 
         checkEmptyMethod();
+    }
+
+    private Bitmap uriToBitmap(Uri uri){
+        try {
+           return MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 

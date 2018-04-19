@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/linear_regression"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/linear_regression" />
+        <item
+            android:id="@+id/mlp_clsfr"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/mlp_classifier" />
+        <item
+            android:id="@+id/mlp_rgrsr"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/mlp_regressor" />
+        <item
+            android:id="@+id/perceptron"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/perceptron" />
+    </group>
+
+
+    <item
+        android:id="@+id/nav_share"
+        android:icon="@drawable/ic_menu_share"
+        android:title="Тут будет seekbar" />
+
+
+</menu>

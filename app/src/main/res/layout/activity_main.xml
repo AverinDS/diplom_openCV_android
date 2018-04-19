@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:opencv="http://schemas.android.com/apk/res-auto"
@@ -55,47 +60,59 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="50dp"
-            />
+            android:layout_marginEnd="50dp"/>
+
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/activity_main_menu_ml"
+    <!--<LinearLayout-->
+        <!--android:id="@+id/activity_main_menu_ml"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/height_menu_methods"-->
+        <!--android:layout_gravity=""-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/activity_main_toggbtn_lr"-->
+            <!--android:layout_width="@dimen/width_button_ml"-->
+            <!--android:checked="true"-->
+            <!--android:textOn="@string/linear_regression"-->
+            <!--android:textOff="@string/linear_regression"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/activity_main_toggbtn_perceptron"-->
+            <!--android:layout_width="@dimen/width_button_ml"-->
+            <!--android:textOn="@string/perceptron"-->
+            <!--android:textOff="@string/perceptron"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/activity_main_toggbtn_mlprgsr"-->
+            <!--android:layout_width="@dimen/width_button_ml"-->
+            <!--android:textOn="@string/mlp_regressor"-->
+            <!--android:textOff="@string/mlp_regressor"-->
+            <!--android:layout_height="match_parent" />-->
+
+        <!--<ToggleButton-->
+            <!--android:id="@+id/activity_main_toggbtn_mlpclsfr"-->
+            <!--android:layout_width="@dimen/width_button_ml"-->
+            <!--android:textOn="@string/mlp_classifier"-->
+            <!--android:textOff="@string/mlp_classifier"-->
+            <!--android:layout_height="match_parent" />-->
+
+    <!--</LinearLayout>-->
+    <include
+        layout="@layout/app_bar_camera_activity"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_menu_methods"
-        android:layout_gravity="top"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content" />
 
-        <ToggleButton
-            android:id="@+id/activity_main_toggbtn_lr"
-            android:layout_width="@dimen/width_button_ml"
-            android:checked="true"
-            android:textOn="@string/linear_regression"
-            android:textOff="@string/linear_regression"
-            android:layout_height="match_parent" />
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/camera_activity_drawer" />
 
-        <ToggleButton
-            android:id="@+id/activity_main_toggbtn_perceptron"
-            android:layout_width="@dimen/width_button_ml"
-            android:textOn="@string/perceptron"
-            android:textOff="@string/perceptron"
-            android:layout_height="match_parent" />
-
-        <ToggleButton
-            android:id="@+id/activity_main_toggbtn_mlprgsr"
-            android:layout_width="@dimen/width_button_ml"
-            android:textOn="@string/mlp_regressor"
-            android:textOff="@string/mlp_regressor"
-            android:layout_height="match_parent" />
-
-        <ToggleButton
-            android:id="@+id/activity_main_toggbtn_mlpclsfr"
-            android:layout_width="@dimen/width_button_ml"
-            android:textOn="@string/mlp_classifier"
-            android:textOff="@string/mlp_classifier"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</android.support.v4.widget.DrawerLayout>
 

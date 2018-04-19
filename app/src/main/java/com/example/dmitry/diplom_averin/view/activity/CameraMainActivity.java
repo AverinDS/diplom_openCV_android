@@ -78,15 +78,15 @@ public class CameraMainActivity extends AppCompatActivity
         progressBar = findViewById(R.id.actMainProgressBar);
         btnTakePhoto = findViewById(R.id.activity_main_btn_take_photo);
 
-        tButtonLr = findViewById(R.id.activity_main_toggbtn_lr);
-        tButtonMlpClsfr = findViewById(R.id.activity_main_toggbtn_mlpclsfr);
-        tButtonMlpRgrsr = findViewById(R.id.activity_main_toggbtn_mlprgsr);
-        tButtonPerceptron = findViewById(R.id.activity_main_toggbtn_perceptron);
+//        tButtonLr = findViewById(R.id.activity_main_toggbtn_lr);
+//        tButtonMlpClsfr = findViewById(R.id.activity_main_toggbtn_mlpclsfr);
+//        tButtonMlpRgrsr = findViewById(R.id.activity_main_toggbtn_mlprgsr);
+//        tButtonPerceptron = findViewById(R.id.activity_main_toggbtn_perceptron);
 
-        tButtonPerceptron.setOnCheckedChangeListener(this);
-        tButtonLr.setOnCheckedChangeListener(this);
-        tButtonMlpClsfr.setOnCheckedChangeListener(this);
-        tButtonMlpRgrsr.setOnCheckedChangeListener(this);
+//        tButtonPerceptron.setOnCheckedChangeListener(this);
+//        tButtonLr.setOnCheckedChangeListener(this);
+//        tButtonMlpClsfr.setOnCheckedChangeListener(this);
+//        tButtonMlpRgrsr.setOnCheckedChangeListener(this);
         btnTakePhoto.setOnClickListener(this);
 
         presenter.attachView(this);

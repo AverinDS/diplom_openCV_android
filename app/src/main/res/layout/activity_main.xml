@@ -64,43 +64,6 @@
 
     </FrameLayout>
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/activity_main_menu_ml"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/height_menu_methods"-->
-        <!--android:layout_gravity=""-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<ToggleButton-->
-            <!--android:id="@+id/activity_main_toggbtn_lr"-->
-            <!--android:layout_width="@dimen/width_button_ml"-->
-            <!--android:checked="true"-->
-            <!--android:textOn="@string/linear_regression"-->
-            <!--android:textOff="@string/linear_regression"-->
-            <!--android:layout_height="match_parent" />-->
-
-        <!--<ToggleButton-->
-            <!--android:id="@+id/activity_main_toggbtn_perceptron"-->
-            <!--android:layout_width="@dimen/width_button_ml"-->
-            <!--android:textOn="@string/perceptron"-->
-            <!--android:textOff="@string/perceptron"-->
-            <!--android:layout_height="match_parent" />-->
-
-        <!--<ToggleButton-->
-            <!--android:id="@+id/activity_main_toggbtn_mlprgsr"-->
-            <!--android:layout_width="@dimen/width_button_ml"-->
-            <!--android:textOn="@string/mlp_regressor"-->
-            <!--android:textOff="@string/mlp_regressor"-->
-            <!--android:layout_height="match_parent" />-->
-
-        <!--<ToggleButton-->
-            <!--android:id="@+id/activity_main_toggbtn_mlpclsfr"-->
-            <!--android:layout_width="@dimen/width_button_ml"-->
-            <!--android:textOn="@string/mlp_classifier"-->
-            <!--android:textOff="@string/mlp_classifier"-->
-            <!--android:layout_height="match_parent" />-->
-
-    <!--</LinearLayout>-->
     <include
         layout="@layout/app_bar_camera_activity"
         android:layout_width="match_parent"

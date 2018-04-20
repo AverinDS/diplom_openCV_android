@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -45,7 +48,7 @@ import java.util.List;
 
 public class CameraMainActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2, IMyActivity, View.OnClickListener,
-        CompoundButton.OnCheckedChangeListener, NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener,RadioGroup.OnCheckedChangeListener {
 
 
     private final int CAMERA_PERMISSION_CODE = 1;
@@ -57,10 +60,6 @@ public class CameraMainActivity extends AppCompatActivity
     private Bitmap bm = null;
     private ImageView image;
     private ProgressBar progressBar;
-    private ToggleButton tButtonLr;
-    private ToggleButton tButtonPerceptron;
-    private ToggleButton tButtonMlpRgrsr;
-    private ToggleButton tButtonMlpClsfr;
     private ImageButton btnTakePhoto;
     private boolean isScreenClicked = false;
     private boolean isCalculationWork = false;
@@ -70,6 +69,7 @@ public class CameraMainActivity extends AppCompatActivity
     private DrawerLayout drawer = null;
     private ActionBarDrawerToggle toggle = null;
     private NavigationView navigationView = null;
+    private RadioGroup radioGroupMl = null;
 
 
     @Override
@@ -90,18 +90,11 @@ public class CameraMainActivity extends AppCompatActivity
         image = findViewById(R.id.activity_main_image_view);
         progressBar = findViewById(R.id.actMainProgressBar);
         btnTakePhoto = findViewById(R.id.activity_main_btn_take_photo);
-
-//        tButtonLr = findViewById(R.id.activity_main_toggbtn_lr);
-//        tButtonMlpClsfr = findViewById(R.id.activity_main_toggbtn_mlpclsfr);
-//        tButtonMlpRgrsr = findViewById(R.id.activity_main_toggbtn_mlprgsr);
-//        tButtonPerceptron = findViewById(R.id.activity_main_toggbtn_perceptron);
-
-//        tButtonPerceptron.setOnCheckedChangeListener(this);
-//        tButtonLr.setOnCheckedChangeListener(this);
-//        tButtonMlpClsfr.setOnCheckedChangeListener(this);
-//        tButtonMlpRgrsr.setOnCheckedChangeListener(this);
+        radioGroupMl = navigationView.getMenu().findItem(R.id.nav_drawer_list_methods_ml)
+                .getActionView().findViewById(R.id.nav_drawer_rg_ml_list);
 
         btnTakePhoto.setOnClickListener(this);
+        radioGroupMl.setOnCheckedChangeListener(this);
 
         presenter.attachView(this);
         presenter.getCameraPermission(CAMERA_PERMISSION_CODE);
@@ -113,6 +106,7 @@ public class CameraMainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -192,7 +186,6 @@ public class CameraMainActivity extends AppCompatActivity
             isScreenClicked = false;
             bufer = inputFrame.rgba();
             startRecognition();
-
         }
         return inputFrame.rgba();
     }
@@ -244,9 +237,7 @@ public class CameraMainActivity extends AppCompatActivity
                 break;
             }
         }
-
     }
-
 
     @Override
     public void messageToUser(String message) {
@@ -266,7 +257,6 @@ public class CameraMainActivity extends AppCompatActivity
 
         //sendToServer
         presenter.getPredictPoints(method);
-
     }
 
     @Override
@@ -283,12 +273,39 @@ public class CameraMainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.rbLinearRegression: {
+                method = MethodML.LinearRegression;
+                return;
+            }
+            case R.id.rbMlpClassifier: {
+                method = MethodML.MLPClassifier;
+                return;
+            }
+            case R.id.rbMlpRegressor: {
+                method = MethodML.MLPRegressor;
+                return;
+            }
+            case R.id.rbPerceptron: {
+                method = MethodML.Perceptron;
+                return;
+            }
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        int id = item.getItemId();
-//        switch (id) {
-//            case R.id.linear_regression: {messageToUser("LINEAR");break;}
-//        }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void startRecognition() {
@@ -311,55 +328,11 @@ public class CameraMainActivity extends AppCompatActivity
         }
 
         //in ActivityResult we continue recognition
-
     }
 
     public void startActivityPredict() {
         Intent intent = new Intent(CameraMainActivity.this, PredictActivity.class);
         startActivity(intent);
-    }
-
-
-    private void changeMethodML(boolean perceptron, boolean linRegression,
-                                boolean mlpClsfr, boolean mlpRgrsr) {
-        tButtonPerceptron.setChecked(perceptron);
-        tButtonMlpRgrsr.setChecked(mlpRgrsr);
-        tButtonMlpClsfr.setChecked(mlpClsfr);
-        tButtonLr.setChecked(linRegression);
-    }
-
-    private void checkEmptyMethod() {
-        if (!tButtonMlpRgrsr.isChecked() && !tButtonMlpClsfr.isChecked() && !tButtonLr.isChecked() &&
-                !tButtonPerceptron.isChecked()) {
-            method = MethodML.LinearRegression;
-            changeMethodML(false, true, false, false);
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        if (compoundButton.equals(tButtonLr) && isChecked) {
-            method = MethodML.LinearRegression;
-            changeMethodML(false, true, false, false);
-            return;
-        }
-        if (compoundButton.equals(tButtonMlpClsfr) && isChecked) {
-            method = MethodML.MLPClassifier;
-            changeMethodML(false, false, true, false);
-            return;
-        }
-        if (compoundButton.equals(tButtonMlpRgrsr) && isChecked) {
-            method = MethodML.MLPRegressor;
-            changeMethodML(false, false, false, true);
-            return;
-        }
-        if (compoundButton.equals(tButtonPerceptron) && isChecked) {
-            method = MethodML.Perceptron;
-            changeMethodML(true, false, false, false);
-            return;
-        }
-
-        checkEmptyMethod();
     }
 
     private Bitmap uriToBitmap(Uri uri) {

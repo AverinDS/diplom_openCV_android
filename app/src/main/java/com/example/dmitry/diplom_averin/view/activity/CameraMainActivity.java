@@ -284,10 +284,10 @@ public class CameraMainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.linear_regression: {messageToUser("LINEAR");break;}
-        }
+//        int id = item.getItemId();
+//        switch (id) {
+//            case R.id.linear_regression: {messageToUser("LINEAR");break;}
+//        }
         return false;
     }
 

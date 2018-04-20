@@ -112,6 +112,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        android:theme="@style/NavigationTheme"
         app:menu="@menu/camera_activity_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

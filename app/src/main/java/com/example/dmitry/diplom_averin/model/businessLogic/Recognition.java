@@ -42,8 +42,8 @@ public class Recognition {
             Imgproc.Canny(binaryImage, binaryImage, 80, 100);
             Mat	lines = new Mat();
 
-            //sensitive of recognition 50
-            int	threshold = 50;
+            //sensitive of recognition
+            int	threshold = Graphic.getInstance().sensitivityOfRecognition;
 
             Log.d(LOG_TAG, "FindLines");
             Imgproc.HoughLinesP(binaryImage, lines,	1, Math.PI/180, threshold);

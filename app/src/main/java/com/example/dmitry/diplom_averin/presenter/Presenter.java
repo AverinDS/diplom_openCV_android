@@ -2,9 +2,15 @@ package com.example.dmitry.diplom_averin.presenter;
 
 
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
+import android.view.MotionEvent;
+import android.widget.EditText;
 
+import com.example.dmitry.diplom_averin.R;
 import com.example.dmitry.diplom_averin.helper.CameraHelper;
 import com.example.dmitry.diplom_averin.helper.MethodML;
 import com.example.dmitry.diplom_averin.model.businessLogic.Recognition;
@@ -30,6 +36,7 @@ public class Presenter implements IMyPresenter {
     private Recognition recognition = new Recognition(this);
     private boolean recogniseInWork = false;
     private GraphicRepository repository = new GraphicRepository();
+    private Handler handlerBtnPlusMinus = null;
 
     public void attachView(IMyActivity attaching_view) {
         this.activity = attaching_view;
@@ -87,5 +94,31 @@ public class Presenter implements IMyPresenter {
                     Log.e(LOG_TAG, throwable.getMessage());
                     activity.onFailureGettingData();
                         });
+    }
+
+    public void incValSensitivity(EditText valSensitivity, AppCompatActivity context) {
+
+        int maxSensivity = context.getResources().getInteger(R.integer.max_sensitivity);
+
+        if (Integer.parseInt(valSensitivity.getText().toString()) < maxSensivity) {
+            valSensitivity.setText(String.valueOf(Integer.parseInt(valSensitivity.getText().toString())+1));
+            setSentivity(Integer.parseInt(valSensitivity.getText().toString())+1, context);
+        }
+    }
+
+    public void decrValSensitivity(EditText valSensitivity, AppCompatActivity context) {
+
+        int minSensivity = context.getResources().getInteger(R.integer.min_sensitivity);
+
+        if (Integer.parseInt(valSensitivity.getText().toString()) > minSensivity) {
+            valSensitivity.setText(String.valueOf(Integer.parseInt(valSensitivity.getText().toString())-1));
+        }
+        setSentivity(Integer.parseInt(valSensitivity.getText().toString())-1, context);
+    }
+
+    //convert sensitivity to Graphic threshold
+    private void setSentivity(int sens, AppCompatActivity context) {
+        Graphic.getInstance().sensitivityOfRecognition =
+                context.getResources().getInteger(R.integer.max_sensitivity) - sens;
     }
 }

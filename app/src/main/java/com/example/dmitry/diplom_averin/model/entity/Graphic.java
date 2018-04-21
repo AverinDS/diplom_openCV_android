@@ -25,6 +25,8 @@ public class Graphic {
 
     public Bitmap recogniseGraphic;
 
+    public int sensitivityOfRecognition = 50;
+
     //it is need for drawing lines
     public float[] getPredictForDrawing() {
 

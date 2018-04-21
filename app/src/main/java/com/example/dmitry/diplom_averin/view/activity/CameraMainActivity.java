@@ -19,7 +19,9 @@ import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -70,6 +72,10 @@ public class CameraMainActivity extends AppCompatActivity
     private ActionBarDrawerToggle toggle = null;
     private NavigationView navigationView = null;
     private RadioGroup radioGroupMl = null;
+    private Button btnPlus = null;
+    private Button btnMinus = null;
+    private EditText sensitivityVal = null;
+
 
 
     @Override
@@ -90,11 +96,21 @@ public class CameraMainActivity extends AppCompatActivity
         image = findViewById(R.id.activity_main_image_view);
         progressBar = findViewById(R.id.actMainProgressBar);
         btnTakePhoto = findViewById(R.id.activity_main_btn_take_photo);
+
         radioGroupMl = navigationView.getMenu().findItem(R.id.nav_drawer_list_methods_ml)
                 .getActionView().findViewById(R.id.nav_drawer_rg_ml_list);
+        btnPlus = navigationView.getMenu().findItem(R.id.nav_drawer_sensitivity)
+                .getActionView().findViewById(R.id.nav_drawer_plus);
+        btnMinus = navigationView.getMenu().findItem(R.id.nav_drawer_sensitivity)
+                .getActionView().findViewById(R.id.nav_drawer_minus);
+        sensitivityVal = navigationView.getMenu().findItem(R.id.nav_drawer_sensitivity)
+                .getActionView().findViewById(R.id.nav_drawer_text_sensitivity);
 
         btnTakePhoto.setOnClickListener(this);
         radioGroupMl.setOnCheckedChangeListener(this);
+
+        btnPlus.setOnClickListener( v -> presenter.incValSensitivity(sensitivityVal, this));
+        btnMinus.setOnClickListener(v -> presenter.decrValSensitivity(sensitivityVal, this));
 
         presenter.attachView(this);
         presenter.getCameraPermission(CAMERA_PERMISSION_CODE);
@@ -343,6 +359,7 @@ public class CameraMainActivity extends AppCompatActivity
             return null;
         }
     }
+
 
 
 }

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="DEBUG">false</bool>
+    <integer name="max_sensitivity">100</integer>
+    <integer name="min_sensitivity">0</integer>
 </resources>

@@ -14,6 +14,7 @@ import retrofit2.http.Path;
 
 
 /**
+ * Интерфейс объявляющий свойства сервера
  * Created by dmitry on 02.03.18.
  */
 

@@ -1,7 +1,9 @@
 package com.example.dmitry.diplom_averin.helper;
 
 /**
- * Created by dmitry on 14.03.18.
+ * Created on 14.03.18
+ * @author Averin Dmitry
+ * Перечисления методов анализа графика
  */
 
 public enum MethodML {

@@ -7,27 +7,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by DELL on 11.02.2018.
+ * Класс сущности "график" реализованный в single tone
+ * Created on 11.02.2018.
+ *
+ * @author Averin Dmitry
  */
-
 public class Graphic {
+    /**
+     * Instanse для реализации single ton
+     */
     private static Graphic INSTANCE = new Graphic();
 
+    /**
+     * Конструктор пустой
+     */
     private Graphic() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return Возвращает единственный в системе экземпляр класса Graphic
+     */
     public static Graphic getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Список кортежей распознанных точек на графике
+     */
     public List<Pair<Integer, Integer>> pointsTrain = new ArrayList<>();
+
+    /**
+     * Список предсказанных точек графика
+     */
     public List<Pair<Integer, Integer>> pointsPredict = new ArrayList<>();
 
+    /**
+     * Битовая карта распознанного графика
+     */
     public Bitmap recogniseGraphic;
 
+    /**
+     * Переменная, отвечающая за чувствительность распознавания графика. По умолчанию равна 50
+     */
     public int sensitivityOfRecognition = 50;
 
-    //it is need for drawing lines
+    /**
+     * Метод для преобразования списка кортежей предсказанных точек в массив типа float
+     *
+     * @return Предсказанные точки в виде массива типа float
+     * @see Graphic#pointsPredict Graphic#pointsPredictGraphic#pointsPredict
+     */
     public float[] getPredictForDrawing() {
 
         float[] points = new float[pointsPredict.size()*2]; // *2 because list is List<Pair>

@@ -25,18 +25,21 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by dmitry on 05.02.18.
+ * Presenter для CameraMainActivity
+ * Created 05.02.18.
+ * @author Averin Dmitry
  */
-
 public class Presenter implements IMyPresenter {
 
+    /**
+     * Лог тэг для логов
+     */
     private final String LOG_TAG = "Presenter";
     private CameraHelper cameraHelper = new CameraHelper();
     private IMyActivity activity;
     private Recognition recognition = new Recognition(this);
     private boolean recogniseInWork = false;
     private GraphicRepository repository = new GraphicRepository();
-    private Handler handlerBtnPlusMinus = null;
 
     public void attachView(IMyActivity attaching_view) {
         this.activity = attaching_view;

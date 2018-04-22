@@ -9,7 +9,10 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by dmitry on 02.03.18.
+ * Класс, предоставляющий доступ к серверу, используя свойства IRestService
+ * @author Averin Dmitry
+ * @see IRestService
+ * Created on 02.03.18.
  */
 
 public class RestServiceProvider {

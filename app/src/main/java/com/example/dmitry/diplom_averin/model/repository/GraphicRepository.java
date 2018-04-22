@@ -14,12 +14,21 @@ import io.reactivex.Observable;
 
 
 /**
- * Created by dmitry on 02.03.18.
+ * "Хранилище" данных. из этого класса вызываются методы получения данных с сервера
+ * @author Awerin Dmitry
+ * Created on 02.03.18.
  */
-
 public class GraphicRepository {
+    /**
+     * вызов объекта класса типа синглтон для получения доступа к методам загрузки данных
+     */
     private IRestService restService = RestServiceProvider.newInstance().getRestService();
 
+    /**
+     * метод возвращающий предсказанные точки с сервера
+     * @param methodML Метод анализа, выбранный пользователем
+     * @return Список точек (x,y) предсказанных
+     */
     public Observable<List<Pair<Integer,Integer>>> getPredictPoints(MethodML methodML) {
         switch (methodML) {
             case Perceptron:

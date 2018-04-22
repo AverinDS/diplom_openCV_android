@@ -7,7 +7,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by dmitry on 02.03.18.
+ * Класс для сериализации в форме данных
+ * Created  on 02.03.18.
+ * @author Averin Dmitry
  */
 
 public class GraphicRest {

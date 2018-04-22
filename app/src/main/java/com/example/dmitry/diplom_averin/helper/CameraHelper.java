@@ -10,22 +10,31 @@ import android.widget.Toast;
 import com.example.dmitry.diplom_averin.interfaces.IMyActivity;
 
 /**
- * Created by DELL on 11.02.2018.
+ * Created on 11.02.2018.
+ * @author Averin Dmitry
+ * Класс-помощник для взаимодействия с камерой
  */
-
 public class CameraHelper {
-    public CameraPermission getCameraPermission(IMyActivity view, int CAMERA_PERMISSION_CODE) {
+
+    /**
+     * Функция для запроса permission на камеру
+     * @param activity Activity в которое придёт значание Permission при запросе
+     * @param CAMERA_PERMISSION_CODE код, который описывает permission
+     * @return Результат запроса Permission, как одно значение из перечисления CameraPermission
+     * @see CameraPermission
+     */
+    public CameraPermission getCameraPermission(IMyActivity activity, int CAMERA_PERMISSION_CODE) {
 
         //check permissions
-        if (ContextCompat.checkSelfPermission((AppCompatActivity) view, Manifest.permission.CAMERA)
+        if (ContextCompat.checkSelfPermission((AppCompatActivity) activity, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
 
 //            if need the exploration for user
-            if (ActivityCompat.shouldShowRequestPermissionRationale((AppCompatActivity) view,
+            if (ActivityCompat.shouldShowRequestPermissionRationale((AppCompatActivity) activity,
                     Manifest.permission.CAMERA)) { //should i explain main functional of app?
             } else {
 //                No exploration need, we can request permission
-                ActivityCompat.requestPermissions((AppCompatActivity) view,
+                ActivityCompat.requestPermissions((AppCompatActivity) activity,
                         new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_CODE);
                 return CameraPermission.QUERY;
             }

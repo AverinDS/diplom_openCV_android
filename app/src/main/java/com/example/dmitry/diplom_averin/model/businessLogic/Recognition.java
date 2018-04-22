@@ -15,21 +15,39 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 /**
- * Created by DELL on 11.02.2018.
+ * Created on 11.02.2018
+ * @author Averin Dmitry
  */
 
 public class Recognition {
 
+    /**
+     * Объект презентера для возврата сообщений в презентер
+     */
     private IMyPresenter presenter;
 
+    /**
+     * Конструктор
+     * @param _presenter объект презентера, реализующий интерфейс IMyPresenter
+     *                   в который будут возвращаться сообщения
+     *                   @see IMyPresenter
+     */
     public Recognition(IMyPresenter _presenter) {
         presenter = _presenter;
     }
 
+    /**
+     * Запускает процедуру распознавания как AsyncTask
+     * @param sampledImage изображение в Mat, над которым проводится процедура распознавания
+     * @see FindLines
+     */
     public void recognise(Mat sampledImage) {
         new FindLines().execute(sampledImage);
     }
 
+    /**
+     * Класс наследуемый от AsyncTask который проводит процедуру распознавания линий
+     */
     private class FindLines extends AsyncTask<Mat, Void, Bitmap> {
         private String LOG_TAG = "FindLines(asyncTask)";
 

@@ -20,16 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.dmitry.diplom_averin.R;
 import com.example.dmitry.diplom_averin.helper.CameraPermission;
@@ -48,32 +45,121 @@ import org.opencv.core.Mat;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Основное активити, которое взаимодействует с камерой
+ * @author Averin Dmitry
+ */
 public class CameraMainActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2, IMyActivity, View.OnClickListener,
         NavigationView.OnNavigationItemSelectedListener,RadioGroup.OnCheckedChangeListener {
 
 
+    /**
+     * Код для определения, что разрешение пришло именно она камеру
+     */
     private final int CAMERA_PERMISSION_CODE = 1;
+
+    /**
+     * View, которое отображает камеру
+     */
     private CameraBridgeViewBase cameraViewCV;
+
+    /**
+     * Этот текстовое View отображает в себе координаты растознанных точек, в виде [чб]
+     */
     private TextView points;
+
+    /**
+     * Лог тэг
+     */
     private String LOG_TAG = "CameraMainActivity";
+
+    /**
+     * Объект связанного с этой activity презентера
+     * @see Presenter
+     */
     private Presenter presenter = new Presenter();
+
+    /**
+     * Буферная переменная для сохранения изображения в виде Mat для возможности работы с ним
+     */
     private Mat bufer;
+
+    /**
+     * Битовая карта для промежуточного сохранения распознанного изображения
+     */
     private Bitmap bm = null;
+
+    /**
+     * View для отображения распознанного
+     */
     private ImageView image;
+
+    /**
+     * ProgressBar для индикации работы распознавания и анализа изображения
+     */
     private ProgressBar progressBar;
+
+    /**
+     * ImageButton как кнопка для запуска распознавания
+     */
     private ImageButton btnTakePhoto;
+
+    /**
+     * Флаг, показывающий, произошло нажатие на экран или нет
+     * (служит, для сохранения изображения с камеры во временную память)
+     */
     private boolean isScreenClicked = false;
+
+    /**
+     * Флаг, показывающий, запущено ли распознавание и анализ графика или нет
+     * (служит ограничителем на запуск процесссов распознавания и анализа(не более одного))
+     */
     private boolean isCalculationWork = false;
+
+    /**
+     * Переменная, показываеющая, какой метод выбран для анализа
+     */
     private MethodML method = MethodML.LinearRegression;
 
+    /**
+     * Тулбар необходим для корректной работы navigationDrawer
+     */
     private Toolbar toolbar = null;
+
+    /**
+     * layout для navigationDrawer
+     */
     private DrawerLayout drawer = null;
+
+    /**
+     * Toggle Для navigationDrawer
+     */
     private ActionBarDrawerToggle toggle = null;
+
+    /**
+     * NavigationView - "шторка"
+     */
     private NavigationView navigationView = null;
+
+    /**
+     * Группа RadioButtons для возможности выбора метода анализа
+     */
     private RadioGroup radioGroupMl = null;
+
+    /**
+     * Кнопка для возможности инкрементирования значения чувствительности распознавания
+     */
     private Button btnPlus = null;
+
+    /**
+     * Кнопка для возможности декрементирования значения чувствительности распознавания
+     */
     private Button btnMinus = null;
+
+    /**
+     * EditText для отображения значения чуствительности
+     */
     private EditText sensitivityVal = null;
 
 
@@ -346,11 +432,19 @@ public class CameraMainActivity extends AppCompatActivity
         //in ActivityResult we continue recognition
     }
 
+    /**
+     * Запускает activityPredict
+     */
     public void startActivityPredict() {
         Intent intent = new Intent(CameraMainActivity.this, PredictActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Конвертирует uri-файл в Bitmap
+     * @param uri uri до файла
+     * @return Bitmap изображения
+     */
     private Bitmap uriToBitmap(Uri uri) {
         try {
             return MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);

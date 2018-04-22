@@ -14,14 +14,23 @@ import java.io.IOException;
 
 import static android.support.v4.content.FileProvider.getUriForFile;
 
+/**
+ * @author Averin Dmitry
+ * Класс-помощник для сохранения одного изображения
+ */
 public class FileSaver {
 
+    /**
+     * метод сохранение изображения в файл
+     * @param bm Bitmap изображения
+     * @param context контекст
+     * @return uri сохранённого файла
+     */
     public Uri saveImg(Bitmap bm, Context context) {
         String fileName = "111111.jpg";
 
         FileOutputStream fileOutputStream = null;
         File path = new File(context.getFilesDir().toString());
-//        File path = new File(context.getFilesDir(), "images");
         File file = new File(path, fileName);
         if (!file.exists()) {
             try {
@@ -47,6 +56,5 @@ public class FileSaver {
             }
         }
         return Uri.fromFile(file);
-//        return getUriForFile(context,context.getPackageName(), file);
     }
 }

@@ -10,9 +10,10 @@ import com.example.dmitry.diplom_averin.R;
 import com.example.dmitry.diplom_averin.model.entity.Graphic;
 
 /**
- * Created by dmitry on 28.03.18.
+ * Класс-отрисовки точек на View
+ * Created on 28.03.18.
+ * @author Averin Dmitry
  */
-
 public class DrawerPoints extends View {
     private final int STROKE_WIDTH = 10;
     private final int TEXT_SIZE = 48;

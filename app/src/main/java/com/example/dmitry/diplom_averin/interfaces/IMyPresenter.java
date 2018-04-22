@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 
 
 /**
- * Created by dmitry on 24.02.18.
+ * Интерфейс для вызова методов презентера
+ * Created on 24.02.18.
+ * @author AverinDmitry
  */
 
 public interface IMyPresenter {

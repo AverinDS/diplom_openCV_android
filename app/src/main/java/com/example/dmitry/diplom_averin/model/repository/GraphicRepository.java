@@ -39,6 +39,11 @@ public class GraphicRepository {
                 return restService.getPredictPointsMlpClsfr(new GraphicRest(Graphic.getInstance().pointsTrain));
             case MLPRegressor:
                 return restService.getPredictPointsMlpRgrsr(new GraphicRest(Graphic.getInstance().pointsTrain));
+            case CustomNetwork:
+                return restService.getPredictPointsCustomNetwork(new GraphicRest(Graphic.getInstance().pointsTrain));
+            case FbLib:
+                return restService.getPredictPointsFblib(new GraphicRest(Graphic.getInstance().pointsTrain));
+
         }
         return null;
     }

@@ -2,12 +2,9 @@ package com.example.dmitry.diplom_averin.presenter;
 
 
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
-import android.view.MotionEvent;
 import android.widget.EditText;
 
 import com.example.dmitry.diplom_averin.R;
@@ -73,6 +70,7 @@ public class Presenter implements IMyPresenter {
 
         //save recognise graphic
         Graphic.getInstance().recogniseGraphic = bm;
+        Graphic.getInstance().sortPoints();
 
         //generate debug data with coordinates of lines
         StringBuilder stringBuilderPoints = new StringBuilder();
@@ -94,7 +92,11 @@ public class Presenter implements IMyPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pointsObj -> activity.onReceived(pointsObj),
                         throwable -> {
-                    Log.e(LOG_TAG, throwable.getMessage());
+                    if (throwable.getMessage() != null) {
+                        Log.e(LOG_TAG, throwable.getMessage());
+                    } else {
+                        Log.e(LOG_TAG, "Фигня какая-то...");
+                    }
                     activity.onFailureGettingData();
                         });
     }

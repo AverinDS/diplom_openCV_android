@@ -5,6 +5,7 @@
     <string name="perceptron">Перцептрон</string>
     <string name="mlp_classifier">Многослойный перцептрон</string>
     <string name="mlp_regressor">MLP_Regressor</string>
+    <string name="custom_network">Кастомная нейронная сеть</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,4 +18,5 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="settings_of_sensitivity">Настройка чувствительности (0-100)</string>
+    <string name="fbLib">FbProphet</string>
 </resources>

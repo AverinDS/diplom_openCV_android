@@ -11,7 +11,7 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <style name="NavigationTheme" parent="AppTheme">
-        <item name="listPreferredItemHeightSmall">90dp</item>
+        <item name="listPreferredItemHeightSmall">100dp</item>
     </style>
 
 </resources>

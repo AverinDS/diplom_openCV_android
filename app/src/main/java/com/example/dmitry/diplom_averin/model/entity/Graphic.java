@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -72,5 +74,22 @@ public class Graphic {
         }
 
         return points;
+    }
+
+    public void sortPoints() {
+       // Collections.sort(this.pointsTrain, (a,b)-> a.first - b.first );
+//        int max = 0;
+//        List<Pair<Integer, Integer>> deleting = new ArrayList<>();
+//        for (Pair<Integer, Integer> i: this.pointsTrain) {
+//            if (i.first < max) {
+//                deleting.add(i);
+//            } else {
+//                max = i.first;
+//            }
+//        }
+//
+//        for (Pair<Integer,Integer> i: deleting) {
+//            pointsTrain.remove(i);
+//        }
     }
 }

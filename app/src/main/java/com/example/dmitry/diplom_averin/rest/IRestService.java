@@ -42,4 +42,14 @@ public interface IRestService {
             (@Part("points") GraphicRest trainPoints);
 
 
+    @Multipart
+    @POST("mynetwork")
+    Observable<List<Pair<Integer, Integer>>> getPredictPointsCustomNetwork
+            (@Part("points") GraphicRest trainPoints);
+
+    @Multipart
+    @POST("fblib")
+    Observable<List<Pair<Integer, Integer>>> getPredictPointsFblib
+            (@Part("points") GraphicRest trainPoints);
+
 }

@@ -393,6 +393,14 @@ public class CameraMainActivity extends AppCompatActivity
                 method = MethodML.Perceptron;
                 return;
             }
+            case R.id.rbCustomNetwork: {
+                method = MethodML.CustomNetwork;
+                return;
+            }
+            case R.id.rbFbLib: {
+                method = MethodML.FbLib;
+                return;
+            }
         }
     }
 

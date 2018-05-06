@@ -10,5 +10,7 @@ public enum MethodML {
     Perceptron,
     LinearRegression,
     MLPClassifier,
-    MLPRegressor
+    MLPRegressor,
+    CustomNetwork,
+    FbLib,
 }

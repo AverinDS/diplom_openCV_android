@@ -62,6 +62,7 @@ public class Recognition {
 
             //sensitive of recognition
             int	threshold = Graphic.getInstance().sensitivityOfRecognition;
+            if (threshold == 0) { threshold = 1;}
 
             Log.d(LOG_TAG, "FindLines");
             Imgproc.HoughLinesP(binaryImage, lines,	1, Math.PI/180, threshold);
@@ -69,8 +70,8 @@ public class Recognition {
             Imgproc.cvtColor(binaryImage, binaryImage, Imgproc.COLOR_GRAY2RGB);
 
             Log.d(LOG_TAG, "Save result of points:" + lines.cols());
-            for (int i = 0; i < lines.cols(); i++)
-            {
+            for (int i = 0; i < lines.cols(); i++) {
+
                 double[] line = lines.get(0, i);
                 double xStart = line[0],
                         yStart = line[1],

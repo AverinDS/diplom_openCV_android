@@ -70,7 +70,8 @@ public class Presenter implements IMyPresenter {
 
         //save recognise graphic
         Graphic.getInstance().recogniseGraphic = bm;
-        Graphic.getInstance().sortPoints();
+        Graphic.getInstance().prepareData();
+//        Graphic.getInstance().sortPoints();
 
         //generate debug data with coordinates of lines
         StringBuilder stringBuilderPoints = new StringBuilder();
@@ -107,8 +108,8 @@ public class Presenter implements IMyPresenter {
 
         if (Integer.parseInt(valSensitivity.getText().toString()) < maxSensivity) {
             valSensitivity.setText(String.valueOf(Integer.parseInt(valSensitivity.getText().toString())+1));
-            setSentivity(Integer.parseInt(valSensitivity.getText().toString())+1, context);
         }
+        setSentivity(Integer.parseInt(valSensitivity.getText().toString()), context);
     }
 
     public void decrValSensitivity(EditText valSensitivity, AppCompatActivity context) {
@@ -118,7 +119,7 @@ public class Presenter implements IMyPresenter {
         if (Integer.parseInt(valSensitivity.getText().toString()) > minSensivity) {
             valSensitivity.setText(String.valueOf(Integer.parseInt(valSensitivity.getText().toString())-1));
         }
-        setSentivity(Integer.parseInt(valSensitivity.getText().toString())-1, context);
+        setSentivity(Integer.parseInt(valSensitivity.getText().toString()), context);
     }
 
     //convert sensitivity to Graphic threshold

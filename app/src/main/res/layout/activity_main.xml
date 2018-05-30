@@ -62,6 +62,25 @@
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="50dp"/>
 
+        <ProgressBar
+            android:id="@+id/activity_main_progress_bar_internet"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="280dp"
+            android:layout_marginTop="15dp"
+            android:visibility="invisible"
+            />
+        <TextView
+            android:id="@+id/activity_main_wait_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wait"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:textColor="#FFF"
+            android:visibility="invisible"/>
+
     </FrameLayout>
 
     <include

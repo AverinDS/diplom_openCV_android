@@ -19,4 +19,5 @@
     <string name="minus">-</string>
     <string name="settings_of_sensitivity">Настройка чувствительности (0-100)</string>
     <string name="fbLib">FbProphet</string>
+    <string name="wait">Подождите, идёт обработка сервером...</string>
 </resources>

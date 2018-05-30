@@ -98,7 +98,14 @@ public class CameraMainActivity extends AppCompatActivity
     /**
      * ProgressBar для индикации работы распознавания и анализа изображения
      */
-    private ProgressBar progressBar;
+    private ProgressBar progressBarRecognition;
+
+    /**
+     * ProgressBar для индикации работы c сетью
+     */
+    private ProgressBar progressBarInternet;
+
+    private TextView textWaitInternet;
 
     /**
      * ImageButton как кнопка для запуска распознавания
@@ -180,7 +187,9 @@ public class CameraMainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         points = findViewById(R.id.activity_main_points);
         image = findViewById(R.id.activity_main_image_view);
-        progressBar = findViewById(R.id.actMainProgressBar);
+        progressBarRecognition = findViewById(R.id.actMainProgressBar);
+        progressBarInternet = findViewById(R.id.activity_main_progress_bar_internet);
+        textWaitInternet = findViewById(R.id.activity_main_wait_internet);
         btnTakePhoto = findViewById(R.id.activity_main_btn_take_photo);
 
         radioGroupMl = navigationView.getMenu().findItem(R.id.nav_drawer_list_methods_ml)
@@ -247,8 +256,12 @@ public class CameraMainActivity extends AppCompatActivity
                 bm = uriToBitmap(result.getUri());
                 Utils.bitmapToMat(bm, bufer);
                 presenter.recogniseStart(bufer);
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Log.e(LOG_TAG, result.getError().getMessage());
+            } else {
+                if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Log.e(LOG_TAG, result.getError().getMessage());
+                }
+                progressBarRecognition.setVisibility(View.INVISIBLE);
+                isCalculationWork = false;
             }
         }
     }
@@ -297,6 +310,7 @@ public class CameraMainActivity extends AppCompatActivity
         Graphic.getInstance().pointsPredict.addAll(point);
         Log.i(LOG_TAG, String.valueOf(Graphic.getInstance().pointsPredict.size()));
         isCalculationWork = false;
+        setWaitInternet(false);
         startActivityPredict();
     }
 
@@ -304,6 +318,7 @@ public class CameraMainActivity extends AppCompatActivity
     public void onFailureGettingData() {
         Toast.makeText(this, "Fail getting data from server", Toast.LENGTH_LONG).show();
         isCalculationWork = false;
+        setWaitInternet(false);
     }
 
     @Override
@@ -349,13 +364,14 @@ public class CameraMainActivity extends AppCompatActivity
     @Override
     public void updateUI(Bitmap bm, String pointsInfo) {
         Log.d(LOG_TAG, "upfateUI work");
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBarRecognition.setVisibility(View.INVISIBLE);
         image.setImageBitmap(bm);
 
         if (getResources().getBoolean(R.bool.DEBUG)) {
             String s = "Points:" + Graphic.getInstance().pointsTrain.size() + "\n" + pointsInfo;
             points.setText(s);
         }
+        setWaitInternet(true);
 
         //sendToServer
         presenter.getPredictPoints(method);
@@ -370,7 +386,7 @@ public class CameraMainActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         Log.d(LOG_TAG, "Click to Screen");
-        progressBar.setVisibility(View.VISIBLE);
+        progressBarRecognition.setVisibility(View.VISIBLE);
         isScreenClicked = true;
     }
 
@@ -462,6 +478,16 @@ public class CameraMainActivity extends AppCompatActivity
         }
     }
 
+    private void setWaitInternet(boolean visible) {
+        if(visible) {
+            progressBarInternet.setVisibility(View.VISIBLE);
+            textWaitInternet.setVisibility(View.VISIBLE);
+        } else {
+            progressBarInternet.setVisibility(View.INVISIBLE);
+            textWaitInternet.setVisibility(View.INVISIBLE);
+        }
+
+    }
 
 
 }

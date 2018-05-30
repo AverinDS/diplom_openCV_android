@@ -1,12 +1,16 @@
 package com.example.dmitry.diplom_averin.model.entity;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Класс сущности "график" реализованный в single tone
@@ -76,20 +80,30 @@ public class Graphic {
         return points;
     }
 
-    public void sortPoints() {
-       // Collections.sort(this.pointsTrain, (a,b)-> a.first - b.first );
-//        int max = 0;
-//        List<Pair<Integer, Integer>> deleting = new ArrayList<>();
-//        for (Pair<Integer, Integer> i: this.pointsTrain) {
-//            if (i.first < max) {
-//                deleting.add(i);
-//            } else {
-//                max = i.first;
+    public void prepareData() {
+
+        List<Pair<Integer, Integer>> normalPoints = new ArrayList<>();
+//
+        Collections.sort(pointsTrain, ((o1, o2) ->  o1.first - o2.first));
+
+//        int sum = 0;
+//        int count = 0;
+//        int currentX = pointsTrain.get(0).first;
+//
+//        for (Pair<Integer, Integer> item: pointsTrain) {
+//            if (currentX == item.first) {
+//                sum += item.second;
+//                count += 1;
+//            }
+//            else {
+//                normalPoints.add(new Pair<>(currentX, sum / count));//возможно окруление!
+//                sum = item.first;
+//                currentX = item.first;
+//                count = 1;
 //            }
 //        }
 //
-//        for (Pair<Integer,Integer> i: deleting) {
-//            pointsTrain.remove(i);
-//        }
+//        pointsTrain = normalPoints;
+
     }
 }

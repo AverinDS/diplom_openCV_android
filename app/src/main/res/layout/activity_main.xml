@@ -55,8 +55,7 @@
 
         <ImageButton
             android:id="@+id/activity_main_btn_take_photo"
-            android:foreground="@android:drawable/ic_menu_camera"
-            android:background="@color/blood_red"
+            android:background="@drawable/ic_photo_camera_24dp"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end|center_vertical"

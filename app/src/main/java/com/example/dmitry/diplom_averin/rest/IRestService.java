@@ -19,7 +19,7 @@ import retrofit2.http.Path;
  */
 
 public interface IRestService {
-    String BASE_URL = "http://185.246.64.174/serverML/";
+    String BASE_URL = "http://82.146.41.193/serverML/";
 
     @Multipart
     @POST("perceptron")
